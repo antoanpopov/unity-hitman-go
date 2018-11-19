@@ -14,14 +14,24 @@ public class Board : MonoBehaviour {
     };
 
     List<Node> _allNodes = new List<Node>();
+    public List<Node> allNodes { get { return _allNodes; } }
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+    public void GetNodeList() {
+        Node[] nodeList = GameObject.FindObjectsOfType<Node>();
+        _allNodes = new List<Node>(nodeList);
+    }
+
+    void Awake() {
+        GetNodeList();
+    }
+
+    // Use this for initialization
+    void Start() {
+
+    }
+
+    // Update is called once per frame
+    void Update() {
+
+    }
 }
