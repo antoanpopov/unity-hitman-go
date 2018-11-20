@@ -25,13 +25,8 @@ public class Board : MonoBehaviour {
         GetNodeList();
     }
 
-    // Use this for initialization
-    void Start() {
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
+    public Node FindNodeAt(Vector3 position) {
+        Vector3 boardPosition = Utility.Vector3Round(position);
+        return _allNodes.Find(n => n.coordinate == boardPosition);
     }
 }

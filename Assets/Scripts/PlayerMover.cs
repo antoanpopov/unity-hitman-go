@@ -11,12 +11,23 @@ public class PlayerMover : MonoBehaviour {
     public float moveSpeed = 1.5f;
     public float delay = 0f;
 
+    Board _board;
+    public Board board;
+
 	// Use this for initialization
 	void Start () {
 	}
 	
     public void Move(Vector3 destinationPosition, float delayTime = 0.25f) { 
-        StartCoroutine(MoveRoutine(destinationPosition, delayTime));
+    
+        if(board != null) {
+            Node targetNode = board.FindNodeAt(destinationPosition);
+            
+            if(targetNode !=null){
+                StartCoroutine(MoveRoutine(destinationPosition, delayTime));
+            }
+        
+        }
     }
 
     IEnumerator Test() {
@@ -49,19 +60,19 @@ public class PlayerMover : MonoBehaviour {
     } 
 
     public void MoveLeft() {
-        Vector3 newPosition = transform.position + new Vector3(-2, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(-Board.spacing, 0, 0);
         Move(newPosition);
     }
     public void MoveRight() {
-        Vector3 newPosition = transform.position + new Vector3(2, 0, 0);
+        Vector3 newPosition = transform.position + new Vector3(Board.spacing, 0, 0);
         Move(newPosition);
     }
     public void MoveForward() {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, 2);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, Board.spacing);
         Move(newPosition);
     }
     public void MoveBackward() {
-        Vector3 newPosition = transform.position + new Vector3(0, 0, -2);
+        Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
         Move(newPosition);
     }
 }
