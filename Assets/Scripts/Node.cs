@@ -25,7 +25,6 @@ public class Node : MonoBehaviour {
 
     public Ease easeType = Ease.InExpo;
 
-    public bool autoRun = false;
     bool _isInitialized = false;
 
     public LayerMask obstacleLayer;
@@ -39,12 +38,8 @@ public class Node : MonoBehaviour {
         if (geometry != null) {
             geometry.transform.localScale = Vector3.zero;
 
-            if (autoRun) {
-                InitNode();
-            }
-
             if (_board != null) {
-                _neighborNodes = FindNeighbors(_board.allNodes);
+                _neighborNodes = FindNeighbors(_board.AllNodes);
             }
         }
     }
@@ -91,11 +86,11 @@ public class Node : MonoBehaviour {
         foreach (Node node in _neighborNodes) {
             if (!_linkedNodes.Contains(node)) {
                 Obstacle obstacle = FindObstacle(node);
-                if(obstacle == null) {
+                if (obstacle == null) {
                     LinkNode(node);
                     node.InitNode();
                 }
-            }           
+            }
         }
     }
 
@@ -113,7 +108,7 @@ public class Node : MonoBehaviour {
                 _linkedNodes.Add(targetNode);
             }
 
-            if (!targetNode.linkedNodes.Contains(this)){
+            if (!targetNode.linkedNodes.Contains(this)) {
                 targetNode.linkedNodes.Add(this);
             }
 
@@ -125,7 +120,7 @@ public class Node : MonoBehaviour {
         RaycastHit raycastHit;
 
         if (Physics.Raycast(transform.position, checkDirection, out raycastHit, Board.spacing + 0.1f, obstacleLayer)) {
-            Debug.Log("Node FindObstacle: Hit an obstacle from" + this.name + " to " + targetNode.name);
+            //Debug.Log("Node FindObstacle: Hit an obstacle from" + this.name + " to " + targetNode.name);
             return raycastHit.collider.GetComponent<Obstacle>();
         }
         return null;

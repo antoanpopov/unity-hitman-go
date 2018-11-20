@@ -14,19 +14,43 @@ public class Board : MonoBehaviour {
     };
 
     List<Node> _allNodes = new List<Node>();
-    public List<Node> allNodes { get { return _allNodes; } }
+    public List<Node> AllNodes { get { return _allNodes; } }
+
+    private Node _playerNode;
+    public Node PlayerNode { get { return _playerNode; } }
+
+    PlayerMover _player;
+
+    void Awake() {
+        _player = FindObjectOfType<PlayerMover>().GetComponent<PlayerMover>();
+        GetNodeList();
+    }
 
     public void GetNodeList() {
         Node[] nodeList = GameObject.FindObjectsOfType<Node>();
         _allNodes = new List<Node>(nodeList);
     }
 
-    void Awake() {
-        GetNodeList();
-    }
-
     public Node FindNodeAt(Vector3 position) {
         Vector3 boardPosition = Utility.Vector3Round(position);
         return _allNodes.Find(n => n.coordinate == boardPosition);
+    }
+
+    public Node FindPlayerNode() {
+        if (_player != null && !_player.isMoving) {
+            return FindNodeAt(_player.transform.position);
+        }
+        return null;
+    }
+
+    public void UpdatePlayerNode() {
+        _playerNode = FindPlayerNode();
+    }
+
+    private void OnDrawGizmos() {
+        Gizmos.color = new Color(0f, 1f, 1f, 0.5f);
+        if(_playerNode != null) {
+            Gizmos.DrawSphere(_playerNode.transform.position, 0.3f);
+        }
     }
 }

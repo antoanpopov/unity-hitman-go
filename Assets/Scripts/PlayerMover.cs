@@ -8,22 +8,28 @@ public class PlayerMover : MonoBehaviour {
     public Ease ease = Ease.OutBounce;
     public Vector3 destination;
     public bool isMoving = false;
-    public float moveSpeed = 1.5f;
+    public float moveSpeed = 30f;
     public float delay = 0f;
 
     Board _board;
-    public Board board;
 
-	// Use this for initialization
-	void Start () {
+	void Awake () {
+        _board = FindObjectOfType<Board>().GetComponent<Board>();
 	}
-	
+
+    void Start() {
+        UpdateBoard();
+        if(_board != null && _board.PlayerNode != null) {
+            _board.PlayerNode.InitNode();
+        }
+    }
+
     public void Move(Vector3 destinationPosition, float delayTime = 0.25f) { 
     
-        if(board != null) {
-            Node targetNode = board.FindNodeAt(destinationPosition);
+        if(_board != null) {
+            Node targetNode = _board.FindNodeAt(destinationPosition);
             
-            if(targetNode !=null){
+            if(targetNode !=null && _board.PlayerNode.linkedNodes.Contains(targetNode)){
                 StartCoroutine(MoveRoutine(destinationPosition, delayTime));
             }
         
@@ -46,8 +52,8 @@ public class PlayerMover : MonoBehaviour {
     IEnumerator MoveRoutine(Vector3 destinationPosition, float delayTime) {
         isMoving = true;
         yield return new WaitForSeconds(delayTime);
-
-        transform.DOMove(destinationPosition, 2f)
+        transform.DOLookAt(destinationPosition, moveSpeed * Time.deltaTime);
+        transform.DOMove(destinationPosition, moveSpeed * Time.deltaTime)
             .SetDelay(delayTime)
             .SetEase(ease);
 
@@ -57,6 +63,8 @@ public class PlayerMover : MonoBehaviour {
 
         transform.position = destinationPosition;
         isMoving = false;
+
+        UpdateBoard();
     } 
 
     public void MoveLeft() {
@@ -74,5 +82,11 @@ public class PlayerMover : MonoBehaviour {
     public void MoveBackward() {
         Vector3 newPosition = transform.position + new Vector3(0, 0, -Board.spacing);
         Move(newPosition);
+    }
+
+    void UpdateBoard() {
+        if(_board != null) {
+            _board.UpdatePlayerNode();
+        }
     }
 }
