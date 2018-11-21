@@ -19,10 +19,7 @@ public class PlayerMover : MonoBehaviour {
 
     void Start() {
         UpdateBoard();
-        if(_board != null && _board.PlayerNode != null) {
-            _board.PlayerNode.InitNode();
-        }
-    }
+            }
 
     public void Move(Vector3 destinationPosition, float delayTime = 0.25f) { 
     

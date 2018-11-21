@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using DG.Tweening;
 
 public class Board : MonoBehaviour {
 
@@ -21,9 +22,18 @@ public class Board : MonoBehaviour {
 
     PlayerMover _player;
 
+    Node _goalNode;
+    public Node GoalNode { get { return _goalNode; } }
+
+    public GameObject goalPrefab;
+    public float drawGoalTime = 2f;
+    public float drawGoalDelay = 2f;
+    public Ease drawGoalEaseType = Ease.OutExpo;
+
     void Awake() {
         _player = FindObjectOfType<PlayerMover>().GetComponent<PlayerMover>();
         GetNodeList();
+        _goalNode = FindGoalNode();
     }
 
     public void GetNodeList() {
@@ -34,6 +44,10 @@ public class Board : MonoBehaviour {
     public Node FindNodeAt(Vector3 position) {
         Vector3 boardPosition = Utility.Vector3Round(position);
         return _allNodes.Find(n => n.coordinate == boardPosition);
+    }
+
+    public Node FindGoalNode() {
+        return _allNodes.Find(n => n.isLevelGoal);
     }
 
     public Node FindPlayerNode() {
@@ -51,6 +65,22 @@ public class Board : MonoBehaviour {
         Gizmos.color = new Color(0f, 1f, 1f, 0.5f);
         if(_playerNode != null) {
             Gizmos.DrawSphere(_playerNode.transform.position, 0.3f);
+        }
+    }
+
+    public void DrawGoal() {
+        if(goalPrefab != null && _goalNode != null) {
+            GameObject goalInstance = Instantiate(goalPrefab, _goalNode.transform.position, Quaternion.identity);
+            goalInstance.transform.localScale = Vector3.zero;
+            goalInstance.transform.DOScale(Vector3.one, drawGoalTime)
+            .SetDelay(drawGoalDelay)
+            .SetEase(drawGoalEaseType);
+        }
+    }
+
+    public void InitBoard() {
+        if (_playerNode != null) {
+            _playerNode.InitNode();
         }
     }
 }

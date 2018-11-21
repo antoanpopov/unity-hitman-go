@@ -5,10 +5,10 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider))]
 public class Obstacle : MonoBehaviour {
 
-    BoxCollider boxCollider;
+    //BoxCollider boxCollider;
 
     void Awake() {
-        boxCollider = GetComponent<BoxCollider>();
+        //boxCollider = GetComponent<BoxCollider>();
     }
 
 	// Use this for initialization

@@ -29,6 +29,8 @@ public class Node : MonoBehaviour {
 
     public LayerMask obstacleLayer;
 
+    public bool isLevelGoal = false;
+
     void Awake() {
         _board = FindObjectOfType<Board>();
         _coordinate = transform.position;
