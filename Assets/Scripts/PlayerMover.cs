@@ -13,8 +13,11 @@ public class PlayerMover : MonoBehaviour {
 
     Board _board;
 
+    PlayerCompass _playerCompass;
+
 	void Awake () {
         _board = FindObjectOfType<Board>().GetComponent<Board>();
+        _playerCompass = FindObjectOfType<PlayerCompass>().GetComponent<PlayerCompass>();
 	}
 
     void Start() {
@@ -47,9 +50,14 @@ public class PlayerMover : MonoBehaviour {
     }
 
     IEnumerator MoveRoutine(Vector3 destinationPosition, float delayTime) {
+
+        if (_playerCompass != null) {
+            _playerCompass.ShowArrows(false);
+        }
+
         isMoving = true;
         yield return new WaitForSeconds(delayTime);
-        transform.DOLookAt(destinationPosition, moveSpeed * Time.deltaTime);
+        transform.Find("Hitman").DOLookAt(destinationPosition, moveSpeed * Time.deltaTime);
         transform.DOMove(destinationPosition, moveSpeed * Time.deltaTime)
             .SetDelay(delayTime)
             .SetEase(ease);
@@ -62,6 +70,10 @@ public class PlayerMover : MonoBehaviour {
         isMoving = false;
 
         UpdateBoard();
+
+        if(_playerCompass != null) {
+            _playerCompass.ShowArrows(true);
+        }
     } 
 
     public void MoveLeft() {

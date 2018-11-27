@@ -4543,6 +4543,9 @@ MonoBehaviour:
   scale: 1
   startDistance: 0.3
   endDistance: 0.5
+  moveTime: 1
+  easeType: 18
+  delay: 0
 --- !u!1001 &1856434650
 Prefab:
   m_ObjectHideFlags: 0
