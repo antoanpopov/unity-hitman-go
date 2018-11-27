@@ -23,6 +23,7 @@ public class PlayerCompass : MonoBehaviour {
     private void Awake() {
         _board = FindObjectOfType<Board>().GetComponent<Board>();
         SetupArrows();
+        MoveArrows(Board.directions);
 
     }
 
@@ -42,25 +43,15 @@ public class PlayerCompass : MonoBehaviour {
         }
     }
 
-    void MoveArrow(GameObject arrowInstance) {
+    void MoveArrow(GameObject arrowInstance, Vector3 direction) {
 
-        if (arrowInstance.transform.localPosition.x != 0) {
-            arrowInstance.transform.DOMoveX(((arrowInstance.transform.localPosition.x < 0) ? -endDistance : +endDistance) * 2, moveTime)
-                .SetEase(easeType)
-                .SetLoops(-1, LoopType.Yoyo);
-        }
-
-        if (arrowInstance.transform.localPosition.z != 0) {
-            arrowInstance.transform.DOLocalMoveZ(((arrowInstance.transform.localPosition.z < 0) ? -endDistance : +endDistance) * 2, moveTime)
-                .SetEase(easeType)
-                .SetLoops(-1, LoopType.Yoyo);
-        }
+        arrowInstance.transform.position = transform.position + direction * (endDistance- startDistance);
+        arrowInstance.transform.DOMove(arrowInstance.transform.position + arrowInstance.transform.forward * (endDistance - startDistance), moveTime).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
     }
 
-    void MoveArrows() {
-        foreach(GameObject arrow in _arrows) {
-            Debug.Log(arrow.transform.localPosition);
-            MoveArrow(arrow);
+    void MoveArrows(Vector3[] directions) {
+        for(int i = 0; i < _arrows.Count; i++) {
+            MoveArrow(_arrows[i],directions[i]);
         }
     }
 
@@ -78,6 +69,8 @@ public class PlayerCompass : MonoBehaviour {
             for(int i = 0; i < Board.directions.Length; i++) {
                 Node neighbor = _board.PlayerNode.FindNeighborAt(Board.directions[i]);
 
+                _arrows[i].transform.DOKill();
+
                 if(neighbor == null || !state) {
                     _arrows[i].SetActive(false);
                 } else {
@@ -87,6 +80,6 @@ public class PlayerCompass : MonoBehaviour {
             }
         }
 
-        MoveArrows();
+        MoveArrows(Board.directions);
     }
 }
