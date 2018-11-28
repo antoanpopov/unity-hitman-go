@@ -23,7 +23,7 @@ public class PlayerCompass : MonoBehaviour {
     private void Awake() {
         _board = FindObjectOfType<Board>().GetComponent<Board>();
         SetupArrows();
-        MoveArrows(Board.directions);
+        MoveArrows();
 
     }
 
@@ -43,15 +43,13 @@ public class PlayerCompass : MonoBehaviour {
         }
     }
 
-    void MoveArrow(GameObject arrowInstance, Vector3 direction) {
-
-        arrowInstance.transform.position = transform.position + direction * (endDistance- startDistance);
+    void MoveArrow(GameObject arrowInstance) {        
         arrowInstance.transform.DOMove(arrowInstance.transform.position + arrowInstance.transform.forward * (endDistance - startDistance), moveTime).SetEase(easeType).SetLoops(-1, LoopType.Yoyo);
     }
 
-    void MoveArrows(Vector3[] directions) {
+    void MoveArrows() {
         for(int i = 0; i < _arrows.Count; i++) {
-            MoveArrow(_arrows[i],directions[i]);
+            MoveArrow(_arrows[i]);
         }
     }
 
@@ -66,10 +64,11 @@ public class PlayerCompass : MonoBehaviour {
         }
 
         if(_board.PlayerNode != null) {
+           
             for(int i = 0; i < Board.directions.Length; i++) {
                 Node neighbor = _board.PlayerNode.FindNeighborAt(Board.directions[i]);
 
-                _arrows[i].transform.DOKill();
+                
 
                 if(neighbor == null || !state) {
                     _arrows[i].SetActive(false);
@@ -80,6 +79,14 @@ public class PlayerCompass : MonoBehaviour {
             }
         }
 
-        MoveArrows(Board.directions);
+        ResetArrows();
+        MoveArrows();
+    }
+
+     void ResetArrows() {
+        for(int i = 0; i < _arrows.Count; i++) {
+            _arrows[i].transform.position = transform.position + Board.directions[i] * (endDistance - startDistance);
+            _arrows[i].transform.DOKill();
+        }
     }
 }
