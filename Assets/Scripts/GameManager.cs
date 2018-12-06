@@ -4,11 +4,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.SceneManagement;
+using System.Linq;
+
+[Serializable]
+public enum Turn {
+    Player,
+    Enemy
+}
 
 public class GameManager : MonoBehaviour {
 
     Board _board;
     PlayerManager _player;
+
+    List<EnemyManager> _enemies;
+
+    Turn _currentTurn = Turn.Player;
+    public Turn CurrentTurn { get { return _currentTurn; } }
 
     bool _hasLevelStarted = false;
     public bool HasLevelStarted { get { return _hasLevelStarted; } set { _hasLevelStarted = value; } }
@@ -33,6 +45,9 @@ public class GameManager : MonoBehaviour {
     void Awake() {
         _board = FindObjectOfType<Board>().GetComponent<Board>();
         _player = FindObjectOfType<PlayerManager>().GetComponent<PlayerManager>();
+
+        EnemyManager[] enemies = FindObjectsOfType<EnemyManager>() as EnemyManager[];
+        _enemies = enemies.ToList();
     }
 
     private void Start() {
@@ -52,7 +67,7 @@ public class GameManager : MonoBehaviour {
     IEnumerator StartLevelCoroutine() {
 
         Debug.Log("SETUP LEVEL");
-        if(setupEvent != null) {
+        if (setupEvent != null) {
             setupEvent.Invoke();
         }
         Debug.Log("START LEVEL");
@@ -63,7 +78,7 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
 
-        if(startLevelEvent != null) {
+        if (startLevelEvent != null) {
             startLevelEvent.Invoke();
         }
     }
@@ -90,7 +105,7 @@ public class GameManager : MonoBehaviour {
     }
 
     private bool IsWinner() {
-        if(_board.PlayerNode == _board.GoalNode) {
+        if (_board.PlayerNode == _board.GoalNode) {
             return true;
         }
         return false;
@@ -120,5 +135,45 @@ public class GameManager : MonoBehaviour {
 
     public void PlayLevel() {
         _hasLevelStarted = true;
+    }
+    
+    private bool IsEnemyTurnComplete() {
+
+        foreach(EnemyManager enemy in _enemies) {
+            if (!enemy.IsTurnComplete) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    void PlayPlayerTurn() {
+        _currentTurn = Turn.Player;
+        _player.IsTurnComplete = false;
+    }
+    void PlayEnemyTurn() {
+        _currentTurn = Turn.Enemy;
+
+        foreach(EnemyManager enemy in _enemies) {
+            if(enemy != null) {
+
+                enemy.IsTurnComplete = false;
+                
+                enemy.PlayTurn();
+            }
+        }
+    }
+
+    public void Updateturn() {
+        if(_currentTurn == Turn.Player && _player != null) {
+            if (_player.IsTurnComplete) {
+                PlayEnemyTurn();
+            }
+        } else if(_currentTurn == Turn.Enemy) {
+            if (IsEnemyTurnComplete()) {
+                PlayPlayerTurn();
+            }
+        }
     }
 }
