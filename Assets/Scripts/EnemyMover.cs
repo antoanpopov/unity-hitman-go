@@ -4,7 +4,8 @@ using UnityEngine;
 
 public enum MovementType {
     Stationary,
-    Patrol
+    Patrol,
+    Spinner
 }
 
 public class EnemyMover : Mover {
@@ -36,6 +37,9 @@ public class EnemyMover : Mover {
             case MovementType.Stationary:
                 Stand();
                 break;
+            case MovementType.Spinner:
+                Spin();
+                break;
         }
         Stand();
     }
@@ -59,7 +63,7 @@ public class EnemyMover : Mover {
             Node newDestinationNode = _board.FindNodeAt(newDestination);
             Node nextDestinationNode = _board.FindNodeAt(nextDestination);
 
-            if(nextDestinationNode == null) {
+            if(nextDestinationNode == null || !newDestinationNode.linkedNodes.Contains(nextDestinationNode)) {
                 destination = startPosition;
                 FaceDestination();
 
@@ -77,6 +81,20 @@ public class EnemyMover : Mover {
 
     IEnumerator StandCoroutine() {
         yield return new WaitForSeconds(standTime);
+        base.finishMovementEvent.Invoke();
+    }
+
+    void Spin() {
+        StartCoroutine(SpinCoroutine());
+    }
+
+    IEnumerator SpinCoroutine() {
+        Vector3 localForward = new Vector3(0f, 0f, Board.spacing);
+        destination = transform.TransformVector(localForward * -1f) + transform.position;
+
+        FaceDestination();
+        yield return new WaitForSeconds(rotateTime);
+
         base.finishMovementEvent.Invoke();
     }
 }

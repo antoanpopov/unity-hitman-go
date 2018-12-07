@@ -40,6 +40,7 @@ public class GameManager : MonoBehaviour {
     public UnityEvent startLevelEvent;
     public UnityEvent playLevelEvent;
     public UnityEvent endLevelEvent;
+    public UnityEvent loseLevelEvent;
 
     // Use this for initialization
     void Awake() {
@@ -125,6 +126,23 @@ public class GameManager : MonoBehaviour {
             yield return null;
         }
 
+        RestartLevel();
+    }
+
+    public void LoseLevel() {
+        StartCoroutine(LoseLevelCoroutine());
+    }
+
+    IEnumerator LoseLevelCoroutine() {
+        _isGameOver = true;
+
+        if(loseLevelEvent != null) {
+            loseLevelEvent.Invoke();
+        }
+
+        yield return new WaitForSeconds(2f);
+
+        Debug.Log("YOU LOSE!");
         RestartLevel();
     }
 

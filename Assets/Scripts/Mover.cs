@@ -14,6 +14,7 @@ public class Mover : MonoBehaviour {
     public bool isMoving = false;
 
     public float moveSpeed = 30f;
+    public float rotateSpeed = 30f;
     public float delay = 0f;
 
     protected Board _board;
@@ -100,6 +101,6 @@ public class Mover : MonoBehaviour {
 
         float newY = newRotation.eulerAngles.y;
 
-        transform.DORotate(new Vector3(0f, newY, 0f), moveSpeed).SetEase(ease).SetDelay(0f);
+        transform.DORotate(new Vector3(0f, newY, 0f), rotateSpeed * Time.deltaTime).SetEase(ease).SetDelay(0f);
     }
 }

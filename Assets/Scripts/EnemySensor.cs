@@ -22,6 +22,7 @@ public class EnemySensor : MonoBehaviour {
 
         if(_board != null) {
             _nodeToSearch = _board.FindNodeAt(worldSpacePositionToSearch);
+            Debug.Log("NODESEARCH: " + _nodeToSearch + "| PLAYER NODE: " + _board.PlayerNode);
 
             if(_nodeToSearch == _board.PlayerNode) {
                 _foundPlayer = true;
