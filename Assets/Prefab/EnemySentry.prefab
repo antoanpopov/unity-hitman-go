@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 114377717424725904}
   - component: {fileID: 114405392450137960}
   - component: {fileID: 114324778997728794}
+  - component: {fileID: 114258024231572158}
   m_Layer: 0
   m_Name: EnemySentry
   m_TagString: Untagged
@@ -90,6 +91,17 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1279916833245788}
   m_Mesh: {fileID: 4300000, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
+--- !u!114 &114258024231572158
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279916833245788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 20e11fbd5bff56844972bb8951e8d4f7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &114324778997728794
 MonoBehaviour:
   m_ObjectHideFlags: 1

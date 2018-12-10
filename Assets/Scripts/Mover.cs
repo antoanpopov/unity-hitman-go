@@ -20,6 +20,7 @@ public class Mover : MonoBehaviour {
     protected Board _board;
 
     protected Node _currentNode;
+    public Node CurrentNode { get { return _currentNode; } }
 
     public UnityEvent finishMovementEvent;
 
@@ -55,7 +56,12 @@ public class Mover : MonoBehaviour {
 
         isMoving = true;
         yield return new WaitForSeconds(delayTime);
-        transform.Find("Hitman").DOLookAt(destinationPosition, moveSpeed * Time.deltaTime);
+
+        if (transform.Find("PlayerBase") && transform.Find("PlayerBase").Find("Hitman")) {
+            transform.Find("PlayerBase").Find("Hitman").DOLookAt(destinationPosition, moveSpeed * Time.deltaTime);
+        }
+        
+
         transform.DOMove(destinationPosition, moveSpeed * Time.deltaTime)
             .SetDelay(delayTime)
             .SetEase(ease);

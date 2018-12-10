@@ -30,6 +30,13 @@ public class Board : MonoBehaviour {
     public float drawGoalDelay = 2f;
     public Ease drawGoalEaseType = Ease.OutExpo;
 
+    [Header("Capture Slots")]
+    public List<Transform> capturePositions;
+    int _currentCapturePosition = 0;
+    public int CurrentCapturePosition { get { return _currentCapturePosition; } set { _currentCapturePosition = value; } }
+    public float capturePositionIconSize = 0.4f;
+    public Color capturePositionIconColor = Color.blue;
+
     void Awake() {
         _player = FindObjectOfType<PlayerMover>().GetComponent<PlayerMover>();
         GetNodeList();
@@ -57,6 +64,21 @@ public class Board : MonoBehaviour {
         return null;
     }
 
+    public List<EnemyManager> FindEnemiesAt(Node node) {
+        List<EnemyManager> foundEnemies = new List<EnemyManager>();
+        EnemyManager[] enemies = FindObjectsOfType<EnemyManager>() as EnemyManager[];
+
+        foreach(EnemyManager enemy in enemies) {
+            EnemyMover mover = enemy.GetComponent<EnemyMover>();
+
+            if(mover.CurrentNode == node) {
+                foundEnemies.Add(enemy);
+            }
+        }
+
+        return foundEnemies;
+    }
+
     public void UpdatePlayerNode() {
         _playerNode = FindPlayerNode();
     }
@@ -65,6 +87,11 @@ public class Board : MonoBehaviour {
         Gizmos.color = new Color(0f, 1f, 1f, 0.5f);
         if(_playerNode != null) {
             Gizmos.DrawSphere(_playerNode.transform.position, 0.3f);
+        }
+
+        Gizmos.color = capturePositionIconColor;
+        foreach (Transform capturePosition in capturePositions) {
+            Gizmos.DrawCube(capturePosition.position, Vector3.one * capturePositionIconSize);
         }
     }
 

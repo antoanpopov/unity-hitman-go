@@ -13,7 +13,7 @@ public class TurnManager : MonoBehaviour {
         _gameManager = FindObjectOfType<GameManager>().GetComponent<GameManager>();
     }
 
-    public void Finishturn() {
+    public virtual void Finishturn() {
 
         _isTurnComplete = true;
 

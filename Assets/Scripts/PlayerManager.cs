@@ -1,13 +1,19 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(PlayerMover))]
 [RequireComponent(typeof(PlayerInput))]
+[RequireComponent(typeof(PlayerDeath))]
 public class PlayerManager : TurnManager {
 
     public PlayerMover playerMover;
     public PlayerInput playerInput;
+
+    Board _board;
+
+    public UnityEvent deathEvent;
 
 	// Use this for initialization
 	protected override void Awake () {
@@ -15,6 +21,8 @@ public class PlayerManager : TurnManager {
         base.Awake();
 
         playerMover = GetComponent<PlayerMover>();
+
+        _board = FindObjectOfType<Board>().GetComponent<Board>();
 
         playerInput = GetComponent<PlayerInput>();
         playerInput.inputEnabled = true;
@@ -43,4 +51,29 @@ public class PlayerManager : TurnManager {
             }
         }
 	}
+
+    public void Die() {
+        if(deathEvent != null) {
+            deathEvent.Invoke();
+        }
+    }
+
+    void CaptureEnemies() {
+        if(_board != null) {
+            List<EnemyManager> enemies = _board.FindEnemiesAt(_board.PlayerNode);
+
+            if(enemies.Count != 0) {
+                foreach(EnemyManager enemy in enemies) {
+                    if(enemy != null) {
+                        enemy.Die();
+                    }
+                }
+            }
+        }
+    }
+
+    public override void Finishturn() {
+        CaptureEnemies();
+        base.Finishturn();
+    }
 }
