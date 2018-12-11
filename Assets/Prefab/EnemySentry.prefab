@@ -24,7 +24,8 @@ GameObject:
   - component: {fileID: 114377717424725904}
   - component: {fileID: 114405392450137960}
   - component: {fileID: 114324778997728794}
-  - component: {fileID: 114258024231572158}
+  - component: {fileID: 114010809214035534}
+  - component: {fileID: 114135960780849862}
   m_Layer: 0
   m_Name: EnemySentry
   m_TagString: Untagged
@@ -38,13 +39,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1279916833245788}
-  m_LocalRotation: {x: 0, y: 0.7071068, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: 0, y: 0, z: 2}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 4, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!23 &23082737147374742
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -60,11 +61,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100002, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100004, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100006, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100008, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
+  - {fileID: 2100000, guid: e085afd7f9d27427090cbfd104ef769f, type: 2}
+  - {fileID: 2100000, guid: fe049cd93429d4a719239df10a71f41d, type: 2}
+  - {fileID: 2100000, guid: b75e1edc986dc534aaef043053d82b27, type: 2}
+  - {fileID: 2100000, guid: 0dd228518f32b9647a25f8a226eb3a42, type: 2}
+  - {fileID: 2100000, guid: d148b251b1eadef4387946b3bbfe38e0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -91,7 +92,7 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1279916833245788}
   m_Mesh: {fileID: 4300000, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
---- !u!114 &114258024231572158
+--- !u!114 &114010809214035534
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -102,6 +103,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20e11fbd5bff56844972bb8951e8d4f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &114135960780849862
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1279916833245788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8eb81e329f7e741bde4bfe044ffbce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offscreenOffset: {x: 0, y: 10, z: 0}
+  deathDelay: 0
+  offscreenDelay: 1
+  delay: 0
+  easeType: 16
+  moveTime: 0.5
 --- !u!114 &114324778997728794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -163,3 +181,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83b736eafeee1f42b9657aeaa78d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114135960780849862}
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null

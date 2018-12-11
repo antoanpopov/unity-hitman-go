@@ -25,6 +25,7 @@ GameObject:
   - component: {fileID: 114041308935441174}
   - component: {fileID: 114736748322962936}
   - component: {fileID: 114266882092166248}
+  - component: {fileID: 114629665232245228}
   m_Layer: 0
   m_Name: EnemyStationary
   m_TagString: Untagged
@@ -60,11 +61,11 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100002, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100004, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100006, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
-  - {fileID: 2100008, guid: d33623efce80aab4c9b4b5f266b660c7, type: 3}
+  - {fileID: 2100000, guid: e085afd7f9d27427090cbfd104ef769f, type: 2}
+  - {fileID: 2100000, guid: fe049cd93429d4a719239df10a71f41d, type: 2}
+  - {fileID: 2100000, guid: 8fcbaa24fcc69e14daeca40e605b454d, type: 2}
+  - {fileID: 2100000, guid: 0dd228518f32b9647a25f8a226eb3a42, type: 2}
+  - {fileID: 2100000, guid: d148b251b1eadef4387946b3bbfe38e0, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -102,6 +103,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d83b736eafeee1f42b9657aeaa78d256, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  deathEvent:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 114629665232245228}
+        m_MethodName: Die
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!114 &114266882092166248
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -151,6 +168,23 @@ MonoBehaviour:
   movementType: 0
   standTime: 1
   rotateTime: 1
+--- !u!114 &114629665232245228
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1206047382002802}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3c8eb81e329f7e741bde4bfe044ffbce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offscreenOffset: {x: 0, y: 10, z: 0}
+  deathDelay: 0
+  offscreenDelay: 1
+  delay: 0
+  easeType: 16
+  moveTime: 0.7
 --- !u!114 &114736748322962936
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -17,12 +17,16 @@ public class EnemySensor : MonoBehaviour {
         _board = FindObjectOfType<Board>().GetComponent<Board>();
 	}
 
-    public void UpdateSensor() {
+    public void UpdateSensor(Node enemyNode) {
         Vector3 worldSpacePositionToSearch = transform.TransformVector(directionToSearch) + transform.position;
 
         if(_board != null) {
             _nodeToSearch = _board.FindNodeAt(worldSpacePositionToSearch);
-            Debug.Log("NODESEARCH: " + _nodeToSearch + "| PLAYER NODE: " + _board.PlayerNode);
+
+            if (!enemyNode.linkedNodes.Contains(_nodeToSearch)) {
+                _foundPlayer = false;
+                return;
+            }
 
             if(_nodeToSearch == _board.PlayerNode) {
                 _foundPlayer = true;

@@ -138,7 +138,7 @@ public class GameManager : MonoBehaviour {
 
         yield return new WaitForSeconds(1.5f);
 
-        if(loseLevelEvent != null) {
+        if (loseLevelEvent != null) {
             loseLevelEvent.Invoke();
         }
 
@@ -156,17 +156,6 @@ public class GameManager : MonoBehaviour {
     public void PlayLevel() {
         _hasLevelStarted = true;
     }
-    
-    private bool IsEnemyTurnComplete() {
-
-        foreach(EnemyManager enemy in _enemies) {
-            if (!enemy.IsTurnComplete) {
-                return false;
-            }
-        }
-
-        return true;
-    }
 
     void PlayPlayerTurn() {
         _currentTurn = Turn.Player;
@@ -175,22 +164,45 @@ public class GameManager : MonoBehaviour {
     void PlayEnemyTurn() {
         _currentTurn = Turn.Enemy;
 
-        foreach(EnemyManager enemy in _enemies) {
-            if(enemy != null) {
+        foreach (EnemyManager enemy in _enemies) {
+            if (enemy != null && !enemy.IsDead) {
 
                 enemy.IsTurnComplete = false;
-                
+
                 enemy.PlayTurn();
             }
         }
     }
 
+    private bool IsEnemyTurnComplete() {
+
+        foreach (EnemyManager enemy in _enemies) {
+            if (enemy.IsDead) {
+                continue;
+            }
+            if (!enemy.IsTurnComplete) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    bool AreEnemiesAllDead() {
+        foreach (EnemyManager enemy in _enemies) {
+            if (!enemy.IsDead) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void Updateturn() {
-        if(_currentTurn == Turn.Player && _player != null) {
-            if (_player.IsTurnComplete) {
+        if (_currentTurn == Turn.Player && _player != null) {
+            if (_player.IsTurnComplete && !AreEnemiesAllDead()) {
                 PlayEnemyTurn();
             }
-        } else if(_currentTurn == Turn.Enemy) {
+        } else if (_currentTurn == Turn.Enemy) {
             if (IsEnemyTurnComplete()) {
                 PlayPlayerTurn();
             }

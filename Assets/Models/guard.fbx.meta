@@ -13,7 +13,32 @@ ModelImporter:
     2300000: //RootNode
     3300000: //RootNode
     4300000: guard
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gearMat
+    second: {fileID: 2100000, guid: 0dd228518f32b9647a25f8a226eb3a42, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: guardTempMat
+    second: {fileID: 2100000, guid: b75e1edc986dc534aaef043053d82b27, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: gunMat
+    second: {fileID: 2100000, guid: d148b251b1eadef4387946b3bbfe38e0, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: skinMat
+    second: {fileID: 2100000, guid: fe049cd93429d4a719239df10a71f41d, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: standMat
+    second: {fileID: 2100000, guid: e085afd7f9d27427090cbfd104ef769f, type: 2}
   materials:
     importMaterials: 1
     materialName: 0
